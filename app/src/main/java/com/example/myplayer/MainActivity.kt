@@ -1,6 +1,8 @@
 package com.example.myplayer
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -12,15 +14,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
-import com.example.myplayer.domain.model.Song
 import com.example.myplayer.presentation.navigation.NavGraph
 import com.example.myplayer.presentation.ui.components.BottomNavBar
 import com.example.myplayer.presentation.ui.theme.MyPlayerTheme
@@ -45,15 +43,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        createNotificationChannel()
         Log.d("MainActivity", "MainActivity started")
         checkAndRequestPermissions()
         try {
             setContent {
                 MyPlayerTheme {
-                    val navController = rememberNavController()
+                   val navController = rememberNavController()
                     Scaffold(
                         bottomBar = { BottomNavBar(navController) }
-                    ) { innerPadding ->
+                    ) { padding ->
                         NavGraph(navController)
                     }
                 }
@@ -79,6 +78,18 @@ class MainActivity : ComponentActivity() {
                 // Запросите разрешение напрямую
                 requestPermissionLauncher.launch(permission)
             }
+        }
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val serviceChannel = NotificationChannel(
+                "music_channel",
+                "Music Playback",
+                NotificationManager.IMPORTANCE_LOW
+            )
+            val manager = getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(serviceChannel)
         }
     }
 }

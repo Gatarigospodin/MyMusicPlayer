@@ -30,4 +30,8 @@ class MusicRepositoryImpl @Inject constructor(
             )
         }
     }
+
+    override suspend fun getSongById(songId: Long): Song? {
+        TODO("Not yet implemented")
+    }
 }

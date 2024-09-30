@@ -9,5 +9,6 @@ data class SongEntity(
     val uri: String,
     val album: String,
     val duration: Long,
-    val dateAdded: Long
+    val dateAdded: Long,
+    var hasLyrics: Boolean = false
 )

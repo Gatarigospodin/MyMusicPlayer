@@ -8,10 +8,10 @@ import com.example.myplayer.presentation.ui.screen.HomeScreen
 import com.example.myplayer.presentation.ui.screen.PlaylistScreen
 import com.example.myplayer.presentation.ui.screen.SearchScreen
 
-sealed class Screen(val route: String, val title: String) {
-    object Home : Screen("home", "Дом")
-    object Search : Screen("search", "Поиск")
-    object Playlist : Screen("playlist", "Плейлисты")
+sealed class Screen(val route: String, val title: String, val iconName: String) {
+    object Home : Screen("home", "Дом", "Home")
+    object Search : Screen("search", "Поиск", "Search")
+    object Playlist : Screen("playlist", "Плейлисты", "LibraryMusic")
 }
 
 @Composable
